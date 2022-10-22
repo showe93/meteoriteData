@@ -1,9 +1,14 @@
 from utility_functions import convert_string_to_numerical
 import requests
 import sqlite3
-
+"""
+This module establishes a connection, retrieves the information and sorts all the meteorite data
+db_operation() is the only function available to outside file
+the information is sorted by geolocation and is placed into the appropriate table based on the dictionary found below
+"""
 
 def db_operation():
+    """this function establishes a connection, collects the data, and commits any changes to the tables"""
     response = requests.get('https://data.nasa.gov/resource/gh4g-9sfh.json')
     json_data = response.json()
     db_connection = None
@@ -12,21 +17,18 @@ def db_operation():
         db_name = 'meteorite_db.db'
         db_connection = sqlite3.connect(db_name)
         db_cursor = db_connection.cursor()
-        tables(db_cursor)
-        table_sort(json_data, db_cursor)
-
+        _tables(db_cursor)
+        _table_sort(json_data, db_cursor)
         db_connection.commit()
         db_cursor.close()
-
     except sqlite3.Error as db_error:
         print(f'A Database Error has occurred: {db_error}')
     finally:
         if db_connection:
             db_connection.close()
             print('Database connection closed.')
-
-
-def tables(db_cursor):
+def _tables(db_cursor):
+    """Creates the 7 tables for the 7 different locations"""
     db_cursor.execute('''CREATE TABLE IF NOT EXISTS Africa_MiddleEast_Meteorites(
                                        name TEXT,
                                        mass TEXT,
@@ -82,9 +84,9 @@ def tables(db_cursor):
                                                reclong TEXT);''')
 
     db_cursor.execute('DELETE FROM South_America_Meteorites')
-
-
-def table_sort(data, db_cursor):
+def _table_sort(data, db_cursor):
+    """takes the json data, loops through it, and sorts it into the appropriate
+    table based on the geo-location(reclat and reclong)"""
     # geolocation bounding box -- (left,bottom,right,top)
     bound_box_dict = {
         'Africa_MiddleEast_Meteorites': (-17.8, -35.2, 62.2, 37.6),

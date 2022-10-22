@@ -1,4 +1,3 @@
-import json
 """
 This module assists with converting a string to an int or float.
 Only the convert_string_to_numerical() function is available to outside files
