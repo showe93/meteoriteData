@@ -1,6 +1,6 @@
 # COMP390 Project 2 - Sean Howe - COMP 390-001
 
-This project takes a list of meteorite data from a database and sorts it based on the location of where it landed in the world
+This project takes a list of meteorite data from a database and sorts it based on the location of where it landed on earth.
 
 Developed in Python 3.10.7
 
