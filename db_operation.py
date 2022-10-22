@@ -2,6 +2,7 @@ from utility_functions import convert_string_to_numerical
 import requests
 import sqlite3
 
+
 def db_operation():
     response = requests.get('https://data.nasa.gov/resource/gh4g-9sfh.json')
     json_data = response.json()
@@ -12,7 +13,7 @@ def db_operation():
         db_connection = sqlite3.connect(db_name)
         db_cursor = db_connection.cursor()
         tables(db_cursor)
-        table_sort(json_data)
+        table_sort(json_data, db_cursor)
 
         db_connection.commit()
         db_cursor.close()
@@ -24,8 +25,8 @@ def db_operation():
             db_connection.close()
             print('Database connection closed.')
 
-def tables(db_cursor):
 
+def tables(db_cursor):
     db_cursor.execute('''CREATE TABLE IF NOT EXISTS Africa_MiddleEast_Meteorites(
                                        name TEXT,
                                        mass TEXT,
@@ -82,7 +83,8 @@ def tables(db_cursor):
 
     db_cursor.execute('DELETE FROM South_America_Meteorites')
 
-def table_sort(data):
+
+def table_sort(data, db_cursor):
     # geolocation bounding box -- (left,bottom,right,top)
     bound_box_dict = {
         'Africa_MiddleEast_Meteorites': (-17.8, -35.2, 62.2, 37.6),
@@ -97,5 +99,47 @@ def table_sort(data):
         reclat = convert_string_to_numerical(record.get('reclat', None))
         reclong = convert_string_to_numerical(record.get('reclong', None))
         if reclat and reclong:
-            for location,recvalue in bound_box_dict.items():
-                print(location)
+            for location, recvalue in bound_box_dict.items():
+                if (recvalue[0] < reclong < recvalue[2]) and (recvalue[1] < reclat < recvalue[3]):
+                    if location == 'Africa_MiddleEast_Meteorites':
+                        db_cursor.execute('''INSERT INTO Africa_MiddleEast_Meteorites VALUES(?,?,?,?)''',
+                                              (record.get('name', None),
+                                               record.get('mass', None),
+                                               record.get('reclat', None),
+                                               record.get('reclong', None)))
+                    elif location == 'Europe_Meteorites':
+                        db_cursor.execute('''INSERT INTO Europe_Meteorites VALUES(?,?,?,?)''',
+                                              (record.get('name', None),
+                                               record.get('mass', None),
+                                               record.get('reclat', None),
+                                               record.get('reclong', None)))
+                    elif location == 'Upper_Asia_Meteorites':
+                        db_cursor.execute('''INSERT INTO Upper_Asia_Meteorites VALUES(?,?,?,?)''',
+                                              (record.get('name', None),
+                                               record.get('mass', None),
+                                               record.get('reclat', None),
+                                               record.get('reclong', None)))
+                    elif location == 'Lower_Asia_Meteorites':
+                        db_cursor.execute('''INSERT INTO Lower_Asia_Meteorites VALUES(?,?,?,?)''',
+                                              (record.get('name', None),
+                                               record.get('mass', None),
+                                               record.get('reclat', None),
+                                               record.get('reclong', None)))
+                    elif location == 'Australia_Meteorites':
+                        db_cursor.execute('''INSERT INTO Australia_Meteorites VALUES(?,?,?,?)''',
+                                              (record.get('name', None),
+                                               record.get('mass', None),
+                                               record.get('reclat', None),
+                                               record.get('reclong', None)))
+                    elif location == 'North_America_Meteorites':
+                        db_cursor.execute('''INSERT INTO North_America_Meteorites VALUES(?,?,?,?)''',
+                                              (record.get('name', None),
+                                               record.get('mass', None),
+                                               record.get('reclat', None),
+                                               record.get('reclong', None)))
+                    elif location == 'South_America_Meteorites':
+                        db_cursor.execute('''INSERT INTO South_America_Meteorites VALUES(?,?,?,?)''',
+                                              (record.get('name', None),
+                                               record.get('mass', None),
+                                               record.get('reclat', None),
+                                               record.get('reclong', None)))
