@@ -1,11 +1,12 @@
 from utility_functions import convert_string_to_numerical
 import requests
 import sqlite3
-"""
+
+""" 
 This module establishes a connection, retrieves the information and sorts all the meteorite data
 db_operation() is the only function available to outside file
 the information is sorted by geolocation and is placed into the appropriate table based on the dictionary found below
-"""
+ """
 
 def db_operation():
     """this function establishes a connection, collects the data,builds the tables and commits any changes"""
@@ -14,7 +15,7 @@ def db_operation():
     db_connection = None
 
     try:
-        db_name = 'meteorite_db.db'
+        db_name = 'meteorite.db'
         db_connection = sqlite3.connect(db_name)
         db_cursor = db_connection.cursor()
         _tables(db_cursor)
