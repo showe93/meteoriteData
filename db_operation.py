@@ -3,9 +3,7 @@ import requests
 import sqlite3
 
 """ 
-This module establishes a connection, retrieves the information and sorts all the meteorite data
-db_operation() is the only function available to outside file
-the information is sorted by geolocation and is placed into the appropriate table based on the dictionary found below
+This module establishes a connection, retrieves the information and commits the changes to the table
  """
 
 def db_operation():

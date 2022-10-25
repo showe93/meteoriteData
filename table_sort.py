@@ -1,5 +1,9 @@
 from utility_functions import convert_string_to_numerical
 
+"""
+this module creates the tables and sorts all of the incoming json data into the appropriate table based off of
+geolocation(reclat and reclong)
+"""
 def tables(db_cursor):
     """Creates the 7 tables for the 7 different locations"""
     db_cursor.execute('''CREATE TABLE IF NOT EXISTS Africa_MiddleEast_Meteorites(
