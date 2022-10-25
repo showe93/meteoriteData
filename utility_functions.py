@@ -1,5 +1,8 @@
+import requests
+
+
 """
-This module assists with converting a string to an int or float.
+This module assists with converting a string to an int or float and checks if theirs an issue completing a GET request.
 Only the convert_string_to_numerical() function is available to outside files
 """
 
@@ -36,3 +39,14 @@ def convert_string_to_numerical(in_string):
     return None
 
 
+def issue_get_request(target_url: str):
+    """ This function issues a GET request to the URL passed as its single parameter.
+    A response object is returned
+    The status code of the request object is also reported"""
+    response: requests.Response = requests.get(target_url)
+    if response.status_code != 200:
+        print(f'The GET request was not successful\n STATUS CODE: {response.status_code}\n please try a new URL')
+        exit(1)
+    else:
+        print(f'the GET request was successful\n STATUS CODE: {response.status_code}')
+        return response
