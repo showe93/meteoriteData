@@ -1,5 +1,4 @@
-from table_sort import table_sort
-from make_tables import tables
+from table_sort import table_sort, tables
 import requests
 import sqlite3
 
