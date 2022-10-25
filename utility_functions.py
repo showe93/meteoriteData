@@ -1,12 +1,8 @@
 import requests
-
-
 """
 This module assists with converting a string to an int or float and checks if theirs an issue completing a GET request.
-Only the convert_string_to_numerical() function is available to outside files
+This is a set of Utility Functions
 """
-
-
 def _string_is_int(in_string):
     """ returns True if the incoming parameter is an int, returns False otherwise """
     try:
@@ -16,7 +12,6 @@ def _string_is_int(in_string):
         return False
     except ValueError:
         return False
-
 
 def _string_is_float(in_string):
     """ returns True if the incoming parameter is a float, returns False otherwise """
@@ -28,7 +23,6 @@ def _string_is_float(in_string):
     except ValueError:
         return False
 
-
 def convert_string_to_numerical(in_string):
     """ this function converts a string to a numerical value (to either an int or float)
         'None' is returned if the incoming string is not in the form of an int or float """
@@ -37,7 +31,6 @@ def convert_string_to_numerical(in_string):
     elif _string_is_int(in_string):
         return int(in_string)
     return None
-
 
 def issue_get_request(target_url: str):
     """ This function issues a GET request to the URL passed as its single parameter.
@@ -50,3 +43,14 @@ def issue_get_request(target_url: str):
     else:
         print(f'the GET request was successful\n STATUS CODE: {response.status_code}')
         return response
+
+def convert_content_to_json(response: requests.Response):
+    json_data = None
+    try:
+        json_data = response.json()
+        print(f'Response object content converted to JSON object\n')
+    except requests.exceptions.JSONDecodeError as json_decode_error:
+        print(f'An error occured while trying to convert the response content to a JSON object:\n'
+                f'{json_decode_error}')
+    finally:
+        return json_data

@@ -1,5 +1,5 @@
 from table_sort import table_sort, tables
-from utility_functions import issue_get_request
+from utility_functions import issue_get_request, convert_content_to_json
 import sqlite3
 
 """ 
@@ -9,10 +9,11 @@ This module establishes a connection, retrieves the information and commits the 
 def db_operation():
     """this function establishes a connection, collects the data,builds the tables and commits any changes"""
     response = issue_get_request('https://data.nasa.gov/resource/gh4g-9sfh.json')
-    json_data = response.json()
+    json_data = convert_content_to_json(response)
     db_connection = None
 
     try:
+
         db_name = 'meteorite.db'
         db_connection = sqlite3.connect(db_name)
         db_cursor = db_connection.cursor()
