@@ -103,7 +103,7 @@ def _table_sort(data, db_cursor):
         reclong = convert_string_to_numerical(record.get('reclong', None))
         if reclat and reclong:
             for location, recvalue in bound_box_dict.items():
-                if (recvalue[0] < reclong < recvalue[2]) and (recvalue[1] < reclat < recvalue[3]):
+                if (recvalue[0] <= reclong <= recvalue[2]) and (recvalue[1] <= reclat <= recvalue[3]):
                         executestring = f'INSERT INTO {location} VALUES(?,?,?,?)'
                         db_cursor.execute(executestring,
                                               (record.get('name', None),
