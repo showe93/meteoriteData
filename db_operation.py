@@ -8,7 +8,7 @@ the information is sorted by geolocation and is placed into the appropriate tabl
 """
 
 def db_operation():
-    """this function establishes a connection, collects the data, and commits any changes to the tables"""
+    """this function establishes a connection, collects the data,builds the tables and commits any changes"""
     response = requests.get('https://data.nasa.gov/resource/gh4g-9sfh.json')
     json_data = response.json()
     db_connection = None
@@ -86,7 +86,7 @@ def _tables(db_cursor):
     db_cursor.execute('DELETE FROM South_America_Meteorites')
 def _table_sort(data, db_cursor):
     """takes the json data, loops through it, and sorts it into the appropriate
-    table based on the geo-location(reclat and reclong)"""
+    table based on the geolocation(reclat and reclong)"""
     # geolocation bounding box -- (left,bottom,right,top)
     bound_box_dict = {
         'Africa_MiddleEast_Meteorites': (-17.8, -35.2, 62.2, 37.6),

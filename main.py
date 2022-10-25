@@ -5,9 +5,6 @@ def main():
     db_operation()
 
 
-
-
-
 if __name__ == '__main__':
     main()
 
