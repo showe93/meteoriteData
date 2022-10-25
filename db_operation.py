@@ -8,7 +8,7 @@ This module establishes a connection, retrieves the information and commits the 
 
 def db_operation():
     """this function establishes a connection, collects the data,builds the tables and commits any changes"""
-    response = requests.get('https://data.nasa.gov/resource/gh4g-9sfh.json')
+    response = issue_get_request('https://data.nasa.gov/resource/gh4g-9sfh.json')
     json_data = response.json()
     db_connection = None
 
@@ -26,3 +26,21 @@ def db_operation():
         if db_connection:
             db_connection.close()
             print('Database connection closed.')
+
+def issue_get_request(target_url: str):
+    """ This function issues a GET request to the URL passed as its single parameter.
+    A response object is returned
+    The status code of the request object is also reported"""
+    response: requests.Response = requests.get(target_url)
+    if response.status_code != 200:
+        print(f'The GET request was not successful\n STATUS CODE: {response.status_code}\n please try a new URL')
+        exit(1)
+    else:
+        print(f'the GET request was successful\n STATUS CODE: {response.status_code}')
+        return response
+
+
+
+
+
+
