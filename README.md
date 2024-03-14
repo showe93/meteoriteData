@@ -1,4 +1,4 @@
-# COMP390 Project 2 - Sean Howe - COMP 390-001
+# Meteorite Data
 
 This project takes a list of meteorite data from a database and sorts it based on the location of where it landed on earth.
 
